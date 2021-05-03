@@ -39,7 +39,7 @@ exports.getArticles = (req, res) => {
     const skipping = parseInt(req.query.skip) || 0;
     const limiting = parseInt(req.query.limit) || 0;
 
-    Article.find().skip(skipping).limit(limiting).exec((error, articles) => {
+    Article.find().skip(skipping).limit(limiting).sort({ created: -1 }).exec((error, articles) => {
         if (error) return res.status(500).send({ message: error });
         res.status(200).send({ data: articles })
     });
