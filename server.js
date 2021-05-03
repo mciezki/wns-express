@@ -35,7 +35,7 @@ db.mongoose
 
 
 app.get('/', (req, res) => {
-    res.json({ message: 'Witaj w News World Service API' });
+    res.json({ message: 'Hello in News World Service API' });
 });
 
 require('./routes/auth.routes')(app);
