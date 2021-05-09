@@ -29,7 +29,7 @@ exports.postArticle = (req, res) => {
 exports.deleteArticle = (req, res) => {
     Article.findByIdAndDelete(req.params.id, (error, article) => {
         if (error) return res.status(500).send({ message: error });
-        // if (article.user !== req.body.username) return res.status(404).send({message: 'You have no access to do that.'});
+        if (req.body.roleId !== '608b2d70861d87411066cac9' || article.user !== req.body.username) return res.status(404).send({ message: 'You have no access to do that.' });
         return res.status(200).send({ message: 'Article has been deleted' })
     });
 };
@@ -38,8 +38,9 @@ exports.deleteArticle = (req, res) => {
 exports.getArticles = (req, res) => {
     const skipping = parseInt(req.query.skip) || 0;
     const limiting = parseInt(req.query.limit) || 0;
+    const category = req.query.category ? { category: req.query.category } : {};
 
-    Article.find().skip(skipping).limit(limiting).sort({ created: -1 }).exec((error, articles) => {
+    Article.find(category).skip(skipping).limit(limiting).sort({ created: -1 }).exec((error, articles) => {
         if (error) return res.status(500).send({ message: error });
         res.status(200).send({ data: articles })
     });
