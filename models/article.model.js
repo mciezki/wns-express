@@ -5,6 +5,7 @@ const articleSchema = new moongose.Schema({
     text: { type: String, required: [true, 'Text is required'] },
     category: { type: String, required: [true, 'Category is required'] },
     user: { type: String, required: [true, 'User is required'] },
+    picture: { type: String },
     created: { type: Date, default: Date.now },
 })
 

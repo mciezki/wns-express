@@ -10,7 +10,8 @@ exports.postArticle = (req, res) => {
         title: req.body.title,
         text: req.body.text,
         category: req.body.category,
-        user: req.body.user
+        user: req.body.user,
+        picture: req.body.picture
     });
 
     article.save((error, article) => {
@@ -40,10 +41,13 @@ exports.getArticles = (req, res) => {
     const limiting = parseInt(req.query.limit) || 0;
     const category = req.query.category ? { category: req.query.category } : {};
 
-    Article.find(category).skip(skipping).limit(limiting).sort({ created: -1 }).exec((error, articles) => {
+    Article.countDocuments({}, function (error, count) {
         if (error) return res.status(500).send({ message: error });
-        res.status(200).send({ data: articles })
-    });
+        Article.find(category).skip(skipping).limit(limiting).sort({ created: -1 }).exec((error, articles) => {
+            if (error) return res.status(500).send({ message: error });
+            res.status(200).send({ data: articles, count: count })
+        });
+    })
 };
 
 
