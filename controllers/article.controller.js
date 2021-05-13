@@ -41,7 +41,7 @@ exports.getArticles = (req, res) => {
     const limiting = parseInt(req.query.limit) || 0;
     const category = req.query.category ? { category: req.query.category } : {};
 
-    Article.countDocuments({}, function (error, count) {
+    Article.countDocuments(category, function (error, count) {
         if (error) return res.status(500).send({ message: error });
         Article.find(category).skip(skipping).limit(limiting).sort({ created: -1 }).exec((error, articles) => {
             if (error) return res.status(500).send({ message: error });
