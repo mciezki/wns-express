@@ -53,7 +53,7 @@ exports.getArticles = (req, res) => {
 
 exports.getArticle = (req, res) => {
     Article.findById(req.params.id, (error, article) => {
-        if (error) return res.status(500).send({ message: error });
+        if (error) return res.status(500).send({ message: "Article not found" });
         res.status(200).send({
             data: article
         });
